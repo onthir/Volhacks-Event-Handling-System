@@ -14,7 +14,18 @@ def home(request):
     return render(request, 'main/index.html', context)
 
 
-# get
+# get the details for the events
+def details(request, slug):
+    # get specific event
+    event = Event.objects.get(slug=slug)
+
+    context = {
+
+        "event": event
+    }
+    return render(request, 'main/details.html', context)
+
+    
 # add event
 def add_event(request):
     if request.user.is_authenticated and request.user.is_superuser:

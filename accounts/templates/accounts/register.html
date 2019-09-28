@@ -1,0 +1,8 @@
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form }}
+    <br>
+    <input type="submit" class="btn btn-danger">
+    <div class="text-mute">Already a member? <a href="{% url 'accounts:login' %}">Login</a></div>
+
+    </form>

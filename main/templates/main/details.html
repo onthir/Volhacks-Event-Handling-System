@@ -1,0 +1,31 @@
+{% extends 'main/base.html' %}
+
+
+<!-- <h1>{{ event.event_name }}</h1>
+
+<h4>Created by: {{ event.created_by }}</h4>
+<h4>Created On: {{ event.created_on }}</h4>
+
+<form action="" method="post">
+
+    <textarea name="" id="" cols="30" rows="10"></textarea>
+    <br><input type="submit" value="Comment">
+</form>
+
+<h1>Comments</h1> -->
+
+
+
+
+{% block content %}
+
+<div class="container">
+    <div class="myCard">
+        <h3 id="gFont">{{ event.event_name }}</h3>
+        <h5>Created By: <strong> {{ event.created_by }}</strong></h5>
+        <h5>Created On: <strong> {{ event.created_on }}</strong></h5>
+        <h5>Assigned Members: {% for volunteer in event.volunteers.all %} {{ volunteer.username }}{% endfor %}</h5>
+    </div>
+</div>
+
+{% endblock %}

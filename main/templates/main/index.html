@@ -1,13 +1,79 @@
-<h1>Current Events</h1>
+{% extends 'main/base.html' %}
 
-<ul>
-    {% for event in current_events %}
-        <li><a href="#">{{ event.event_name }}</a></li>
-    {% endfor %}
-</ul>
+{% block content %}
 
 
 
+
+<br>
+<!-- table -->
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-hover">
+                <h3><strong>Current Events</strong></h3>
+                <thead>
+                  <tr>
+                    <th scope="col">EventID</th>
+                    <th scope="col">Event Name</th>
+                    <th scope="col">Last Activity</th>
+                    <th scope="col">Progress</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for event in current_events %}
+                  <tr>
+                    <th scope="row">{{ event.id }}</th>
+                    <td><a href="{% url 'main:details' event.slug %}">{{ event.event_name }}</a></td>
+                    <td>{{ event.created_on }}</td>
+                    <td>{{ event.closed }}</td>
+                  </tr>
+                  {% endfor %}
+
+                </tbody>
+              </table>
+              <div class="text-right">
+              <a href="{% url 'main:add_event' %}"><button class="btn btn-primary">Add Event</button></a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- table end -->
+
+<!-- new table -->
+
+<br>
+<!-- table -->
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-hover">
+                <h3><strong>Past Events</strong></h3>
+                <thead>
+                  <tr>
+                    <th scope="col">EventID</th>
+                    <th scope="col">Event Name</th>
+                    <th scope="col">Last Activity</th>
+                    <th scope="col">Progress</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for event in current_events %}
+                  <tr>
+                    <th scope="row">{{ event.id }}</th>
+                    <td><a href="{% url 'main:details' event.slug %}">{{ event.event_name }}</a></td>
+                    <td>{{ event.created_on }}</td>
+                    <td>{{ event.closed }}</td>
+                  </tr>
+                  {% endfor %}
+
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
 <!-- quick buttons to test adding events and all  -->
 
-<a href="{% url 'main:add_event' %}"><button>Add Event</button></a>
+
+
+{% endblock %}

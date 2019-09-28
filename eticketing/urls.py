@@ -18,10 +18,12 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from main import urls
+from accounts import urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", include("main.urls"))
+    path("", include("main.urls")),
+    path("accounts/", include("accounts.urls"))
 ]
 
 # controller for media
