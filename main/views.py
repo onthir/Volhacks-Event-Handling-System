@@ -6,7 +6,7 @@ def home(request):
     print("This is working")
 
     # get current events
-    current_events = Event.objects.filter(closed=False)
+    current_events = Event.objects.filter(closed=False).order_by('-created_o')
 
     context = {
         "current_events": current_events
