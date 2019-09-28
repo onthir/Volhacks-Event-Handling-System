@@ -1,0 +1,13 @@
+<h1>Current Events</h1>
+
+<ul>
+    {% for event in current_events %}
+        <li><a href="#">{{ event.event_name }}</a></li>
+    {% endfor %}
+</ul>
+
+
+
+<!-- quick buttons to test adding events and all  -->
+
+<a href="{% url 'main:add_event' %}"><button>Add Event</button></a>
