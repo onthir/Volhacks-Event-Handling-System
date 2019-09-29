@@ -76,20 +76,18 @@ def add_event(request):
     if request.user.is_authenticated and request.user.is_superuser:
         # add event
         if request.method == "POST":
-            form = AddEventForm(request.POST, request.FILES)
-            if form.is_valid():
 
-                # get all the data from form submit
-                data = form.save(commit=False)
-                data.created_by = request.user
-                data.hits = 0
+            
+            # get all the data from form submit
+            event_name = request.POST.get("event")
+            created_by = request.user
+            hits = 0
 
-                # save the data to the database
-                data.save()
-                return redirect("main:home")
+            data = Event(event_name=event_name, created_by=created_by, hits=0)
+            # save the data to the database
+            data.save()
+            return redirect("main:home")
 
-            else:
-                print("Something went wrong")
         else:
             form = AddEventForm()
 

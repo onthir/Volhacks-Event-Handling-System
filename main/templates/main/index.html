@@ -3,8 +3,6 @@
 {% block content %}
 
 
-
-
 <br>
 <!-- table -->
 <div class="container">
@@ -35,7 +33,26 @@
                 </tbody>
               </table>
               <div class="text-right">
-              <a href="{% url 'main:add_event' %}"><i class="far fa-plus-square" style="font-size: 30px; color:maroon;" data-toggle="tooltip" data-placement="top" title="Create a new Event"></i></button></a>
+              <a href="{% url 'main:add_event' %}" data-toggle="modal" data-target=".bd-example-modal-sm"><i class="far fa-plus-square" style="font-size: 30px; color:maroon;" data-toggle="tooltip" data-placement="top" title="Create a new Event"></i></button></a>
+                <!-- this is a test -->
+                <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-sm">
+                      <div class="modal-content">
+                          <div class="container">
+                              <h4 class="text-center">Add New Task</h4>
+                              <form action="{% url 'main:add_event' %}" method="post">
+                                  {% csrf_token %}
+                                  <label for="">Enter Task Name</label>
+                                  <input type="text" class="form-control" style="background:#c4f2ee;" autofocus name="event">
+                                  <br>
+                                  <input type="submit" value="Submit" class="btn btn-danger">
+                              </form>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+
+                <!-- end of test her -->
             </div>
         </div>
     </div>
