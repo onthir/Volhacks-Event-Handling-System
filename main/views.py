@@ -14,18 +14,59 @@ def home(request):
     return render(request, 'main/index.html', context)
 
 
+def task_inidiv(event, slug, id):
+    event = Event.objects.get(slug=slug)
+
+    # get the task
+    tasks = Task.objects.filter(event=event)
+
+    singleTask = tasks.get(id=id)
+    taskComments = TaskComment.objects.filter(task=singleTask)
+ 
+    return taskComments
 # get the details for the events
-def details(request, slug):
+def details(request, slug, task_id=None):
     # get specific event
     event = Event.objects.get(slug=slug)
 
+    # get task
+    
     # get all tasks for each events
     tasks = Task.objects.filter(event=event)
 
+    # taskComments = tasks.objects.get(id=id)
+    # print(tasks.task_set.all())
+    # taskcomments = TaskComment.objects.filter(tas=event)
+    tsks = []
+
+    for t in tasks:
+        tsks.append(t)
+    # check for thepost form
+    if request.method == 'POST':
+        for task in tasks:
+            comment = request.POST.get(str(task.id))
+
+            if comment == None:
+                pass
+            else:
+                print(comment)
+
+                # add it to the database
+                TaskComment(task=task, posted_by=request.user, description=comment).save()
+                print("Done")
+
+    taskcomms = []
+    # task comments
+    taskcomments = TaskComment.objects.all().order_by('-posted_on')
+    for tl in taskcomments:
+        if tl.task in tsks:
+            print(True)
+            taskcomms.append(tl)
     context = {
 
         "event": event,
-        "tasks": tasks
+        "tasks": tasks,
+        "taskcomments": taskcomments
     }
     return render(request, 'main/details.html', context)
 

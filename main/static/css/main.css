@@ -155,3 +155,9 @@ input[type=email]:focus {
 #show {
     margin-left: 30%;
 }
+
+
+.box{
+    border: 3px solid steelblue;
+    padding: 7px;
+}

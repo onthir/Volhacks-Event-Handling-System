@@ -56,14 +56,23 @@
                   
                       <div id="{{ task.id }}" class="collapse" aria-labelledby="headingOne" data-parent="">
                         <div class="card-body">
-                                
+                                {% for taskComment in taskcomments %}
+                                    {% if taskComment.task.id == task.id %}
+                                        <div class="box">
+                                        <a href="#">{{ taskComment.posted_by }}</a>
+                                        <i>{{ taskComment.posted_on }}</i>
+                                        <p>{{ taskComment.description }}</p>
+                                    </div>
+                                    {% else %}
+                                    {% endif %}
+                                {% endfor %}
                             <form action="" method="post">
                                 {% csrf_token %}
-                                <textarea name="" id="" cols="100" rows="2"></textarea>
+                                <textarea name="{{ task.id }}" id="" cols="100" rows="2"></textarea>
                                 <input type="submit" class="btn btn-danger" value="Comment">
                             </form>
                         </div>
-                      </div>
+                      </div> 
                     
                     {% endfor %}
                 </div>
