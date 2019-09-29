@@ -20,12 +20,40 @@
 {% block content %}
 
 <div class="container">
+<div class="row">
+    <div class="col-md-8">
     <div class="myCard">
         <h3 id="gFont">{{ event.event_name }}</h3>
-        <h5>Created By: <strong> {{ event.created_by }}</strong></h5>
-        <h5>Created On: <strong> {{ event.created_on }}</strong></h5>
-        <h5>Assigned Members: {% for volunteer in event.volunteers.all %} {{ volunteer.username }}{% endfor %}</h5>
+        <h6>Created By: <strong> {{ event.created_by }}</strong></h6>
+        <h6>Created On: <strong> {{ event.created_on }}</strong></h6>
+        <h6>Assigned Members: {% for volunteer in event.volunteers.all %} <span class="badge badge-primary">{{ volunteer.username }}</span> {% endfor %}</h6>
     </div>
+</div>
+
+<div class="col-md-4">
+    <h5>Add Volunteers</h5>
+    <form action="" method="GET">
+    <input type="text" name="volunteers" class="form-control">
+    
+</form>
+
+<div class="myCard">
+    {% for result in users %}
+        
+    <li><span>{{ result.username }}</span>&nbsp; &nbsp; &nbsp; &nbsp;
+        {% if not result in event.volunteers.all %}
+        <a href="{% url 'main:add_volunteers' event.slug result.username %}"><i class="fas fa-user-plus"></i></a></li>
+        
+        {% else %}
+
+        <a href="{% url 'main:remove_volunteers' event.slug result.username %}"><i class="fas fa-user-times"></i></a>
+        {% endif %}
+
+        {% endfor %}
+</div>
+</div>
+
+</div>
 </div>
 <br><br>
 <div class="container">

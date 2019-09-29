@@ -8,8 +8,11 @@ def home(request):
     # get current events
     current_events = Event.objects.filter(closed=False).order_by('-created_on')
 
+    closed_events = Event.objects.filter(closed=True).order_by("-created_on")
+    
     context = {
-        "current_events": current_events
+        "current_events": current_events,
+        "closed_events": closed_events
     }
     return render(request, 'main/index.html', context)
 
@@ -26,6 +29,12 @@ def task_inidiv(event, slug, id):
     return taskComments
 # get the details for the events
 def details(request, slug, task_id=None):
+    
+    volunteers = request.GET.get("volunteers")
+    users = []
+    if volunteers:
+        users = User.objects.filter(username__icontains=volunteers)
+        print(users)
     # get specific event
     event = Event.objects.get(slug=slug)
 
@@ -66,7 +75,8 @@ def details(request, slug, task_id=None):
 
         "event": event,
         "tasks": tasks,
-        "taskcomments": taskcomments
+        "taskcomments": taskcomments,
+        "users": users
     }
     return render(request, 'main/details.html', context)
 
@@ -145,4 +155,48 @@ def close_task(request, id, slug=None):
         if not task.completed:
             task.completed = True
             task.save()
+            return redirect("main:details", slug=slug)
+
+
+# close event
+
+def close_event(request, slug):
+    if request.user.is_authenticated and request.user.is_superuser:
+        # get event
+        event = Event.objects.get(slug=slug)
+
+        # check if its closed
+        if not event.closed:
+            event.closed = True
+
+        event.save()
+        return redirect("main:home")
+
+# add volunteers
+
+def add_volunteers(request, slug, user):
+    if request.user.is_authenticated and request.user.is_superuser:
+        # get event
+        event = Event.objects.get(slug=slug)
+
+        user = User.objects.get(username=user)
+
+        if user not in event.volunteers.all():
+            print("The user is not in the volunteers list")
+            event.volunteers.add(user)
+            event.save()
+            return redirect("main:details", slug=slug)
+
+# remove volunteer
+def remove_volunteers(request, slug, user):
+    if request.user.is_authenticated and request.user.is_superuser:
+        # get event
+        event = Event.objects.get(slug=slug)
+
+        user = User.objects.get(username=user)
+
+        if user  in event.volunteers.all():
+            print("The user is  in the volunteers list")
+            event.volunteers.remove(user)
+            event.save()
             return redirect("main:details", slug=slug)
