@@ -27,5 +27,51 @@
         <h5>Assigned Members: {% for volunteer in event.volunteers.all %} {{ volunteer.username }}{% endfor %}</h5>
     </div>
 </div>
+<br><br>
+<div class="container">
+    <!-- tasks for the events -->
+    <div class="tasks">
+            <div id="accordion">
+                    <div class="card">
+
+                        {% if request.user.is_superuser %}
+
+                            <a href="{% url 'main:add_task' event.slug %}" class="btn btn-danger">Add a new Task</a>
+                        {% endif %}
+
+                    {% if not tasks %}
+                        <h5 class="text-center"><i>No Tasks assigned yet.</i></h5>
+                    {% else %}
+
+
+
+                    {% for task in tasks %}
+                      <div class="card-header" id="headingOne">
+                        <h5 class="mb-0">
+                          <button class="btn btn-link" data-toggle="collapse" data-target="#{{ task.id }}" aria-expanded="true" aria-controls="collapseOne">
+                            {{ task.title }}
+                          </button>
+                        </h5>
+                      </div>
+                  
+                      <div id="{{ task.id }}" class="collapse" aria-labelledby="headingOne" data-parent="">
+                        <div class="card-body">
+                                
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                <textarea name="" id="" cols="100" rows="2"></textarea>
+                                <input type="submit" class="btn btn-danger" value="Comment">
+                            </form>
+                        </div>
+                      </div>
+                    
+                    {% endfor %}
+                </div>
+                    {% endif %}
+                      </div>
+                      </div>
+                      
+    </div>
+
 
 {% endblock %}

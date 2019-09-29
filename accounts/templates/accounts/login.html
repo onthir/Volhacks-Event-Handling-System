@@ -1,13 +1,76 @@
-<form action="" method="post">
+<!DOCTYPE html>
+<html>
 
-{% csrf_token %}
-                    <label for="username">Username</label>
-                    <input type="text" name="username" class="form-control">
-    
-                    <label for="password">Password</label>
-                    <input type="password" name="password" class="form-control">
-    
-                    <br>
-                <input type="submit" class="btn btn-danger" value="Login">
-                
-</form>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Login - Classk</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- custom css -->
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+    <!-- google fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12" id="info">
+                <h1 class="display-4 text-center text-white">CorEvent</h1>
+                <p class="lead text-center"> - " Track Every Event Tasks "</p>
+                <!-- next col -->
+                <div class="container" id="forms">
+                    <h1 id="head1">Login</h1>
+                    <!-- login form -->
+                    <div class="form-wrapper">
+                        <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    {% if error_message %}
+                                    <div class="alert alert-danger">
+                                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                        <strong>Error!</strong> {{ error_message }}
+                                    </div>
+                                    {% endif %}
+                                    <!-- username -->
+                                    <label for="username">Username</label>
+                                    <input type="text" name="username"><br>
+
+                                    <!-- password -->
+                                    <label for="password">Password</label>
+                                    <input type="password" name="password"><br>
+
+                                    <!-- login -->
+                                    <br>
+                                    <input type="submit" value="Submit" id="submit-button">
+                                </div>
+                                <div class="col-md-6">
+                                    <h3 class="lead">What's CorEvent?</h3>
+                                    <ul>
+                                        <li>Event Co-ordination Platform.</li>
+                                        <li>Multiple Events Handling at the same time.</li>
+                                        <li>Timely Record of Every Task.</li>
+                                        <li>Easy To Use and Understand</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </form>
+                        <a href="{% url 'accounts:register' %}">Register An Account</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- footer -->
+    <footer>
+        <p class="copyright text-muted text-center">Copyright &copy; Classk 2018</p>
+    </footer>
+</body>
+
+</html>

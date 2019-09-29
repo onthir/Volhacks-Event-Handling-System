@@ -6,7 +6,7 @@ def home(request):
     print("This is working")
 
     # get current events
-    current_events = Event.objects.filter(closed=False).order_by('-created_o')
+    current_events = Event.objects.filter(closed=False).order_by('-created_on')
 
     context = {
         "current_events": current_events
@@ -19,9 +19,13 @@ def details(request, slug):
     # get specific event
     event = Event.objects.get(slug=slug)
 
+    # get all tasks for each events
+    tasks = Task.objects.filter(event=event)
+
     context = {
 
-        "event": event
+        "event": event,
+        "tasks": tasks
     }
     return render(request, 'main/details.html', context)
 
@@ -49,3 +53,44 @@ def add_event(request):
             form = AddEventForm()
 
         return render(request, 'main/add-event.html', {"form": form})
+
+# edit event
+
+def edit_event(request, slug):
+
+    if request.user.is_authenticated and request.user.is_superuser:
+
+
+        #  get the event to modify
+        event = Event.objects.get(slug=slug)
+
+        if request.method == 'POST':
+            form = AddEventForm(request.POST, instance=event)
+            if form.is_valid():
+                form.save()
+                return redirect("main:details", slug=event.slug)
+        else:
+            form = AddEventForm(instance=event)
+
+        return render(request, 'main/add-event.html', {"form": form})
+
+# create a new task
+
+def add_task(request, slug):
+    if request.user.is_authenticated and request.user.is_superuser:
+
+        # get the event
+        event = Event.objects.get(slug=slug)
+
+        if request.method == 'POST':
+            form = AddTaskForm(request.POST or None)
+
+            if form.is_valid():
+                data = form.save(commit=False)
+                data.event = event
+                data.created_by = request.user
+                data.save()
+                return redirect("main:details", slug=event.slug)
+        else:
+            form = AddTaskForm()
+        return render(request, 'main/add-task.html', {"form": form})

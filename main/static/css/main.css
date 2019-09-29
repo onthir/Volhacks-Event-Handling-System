@@ -61,3 +61,97 @@ body{
 #gFont{
     font-family: 'Roboto Condensed', sans-serif;
 }
+
+
+/* table head */
+
+thead{
+    background: #212529;
+    color: white;
+}
+
+#setColor{
+    background: #212529;
+    color: white;
+}
+
+
+
+/* login card styling */
+
+#login-card-0 {
+    background: teal;
+    color: white;
+}
+
+
+/* login button */
+
+#button-0 {
+    background: orange;
+    color: white;
+}
+
+#button-0:hover {
+    opacity: 0.8;
+    border: 1px solid white;
+}
+
+
+
+/* customization for the login page */
+
+
+#info {
+    background: #122f40;
+    height: 300px;
+}
+
+#info p {
+    color: white;
+}
+
+#forms {
+    background: white;
+}
+
+.form-wrapper {
+    padding: 10px;
+}
+
+.form-wrapper label {
+    padding: 10px;
+    font-family: 'Oswald', sans-serif;
+    color: black;
+}
+
+input[type=text] {
+    border: none;
+    border-bottom: 2px solid grey;
+}
+
+input[type=password] {
+    border: none;
+    border-bottom: 2px solid grey;
+}
+
+input[type=text]:focus {
+    outline: none;
+}
+
+input[type=password]:focus {
+    outline: none;
+}
+
+input[type=email] {
+    border: none;
+    border-bottom: 2px solid grey;
+}
+
+input[type=email]:focus {
+    outline: 0;
+}
+
+#show {
+    margin-left: 30%;
+}

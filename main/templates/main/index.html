@@ -18,6 +18,7 @@
                     <th scope="col">Event Name</th>
                     <th scope="col">Last Activity</th>
                     <th scope="col">Progress</th>
+                    <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -27,13 +28,14 @@
                     <td><a href="{% url 'main:details' event.slug %}">{{ event.event_name }}</a></td>
                     <td>{{ event.created_on }}</td>
                     <td>{{ event.closed }}</td>
+                    <td><a href="{% url 'main:edit_event' event.slug %}"><i class="far fa-edit" style="color: orange;" data-toggle="tooltip" data-placement="top" title="Edit this event"></i></a></td>
                   </tr>
                   {% endfor %}
 
                 </tbody>
               </table>
               <div class="text-right">
-              <a href="{% url 'main:add_event' %}"><button class="btn btn-primary">Add Event</button></a>
+              <a href="{% url 'main:add_event' %}"><i class="far fa-plus-square" style="font-size: 30px; color:maroon;" data-toggle="tooltip" data-placement="top" title="Create a new Event"></i></button></a>
             </div>
         </div>
     </div>
