@@ -51,6 +51,15 @@
                           <button class="btn btn-link" data-toggle="collapse" data-target="#{{ task.id }}" aria-expanded="true" aria-controls="collapseOne">
                             {{ task.title }}
                           </button>
+
+                          {% if request.user.is_superuser %}
+                                {% if not task.completed %}
+                                <a href="{% url 'main:close_task' task.id event.slug %}" class="btn btn-danger">Close Task</a>
+                          
+                                {% else %}
+                                <i class="fas fa-check" style="color: green;"></i>
+                                {% endif %}
+                                {% endif %}
                         </h5>
                       </div>
                   

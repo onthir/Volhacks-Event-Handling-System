@@ -135,3 +135,16 @@ def add_task(request, slug):
         else:
             form = AddTaskForm()
         return render(request, 'main/add-task.html', {"form": form})
+
+
+# close the task
+
+def close_task(request, id, slug=None):
+    if request.user.is_authenticated and request.user.is_superuser:
+        # get task
+        task = Task.objects.get(id=id)
+
+        if not task.completed:
+            task.completed = True
+            task.save()
+            return redirect("main:details", slug=slug)

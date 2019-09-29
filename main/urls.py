@@ -9,5 +9,6 @@ urlpatterns = [
     path('add-event/', views.add_event, name="add_event"),
     path('events/details/<slug:slug>', views.details, name="details"),
     path('events/edit-event/<slug:slug>', views.edit_event, name="edit_event"),
-    path('events/add-task/<slug:slug>', views.add_task, name="add_task")
+    path('events/add-task/<slug:slug>', views.add_task, name="add_task"),
+    path('events/close-task/<int:id>/<slug:slug>', views.close_task, name="close_task")
 ]
