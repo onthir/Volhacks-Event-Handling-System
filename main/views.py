@@ -5,6 +5,7 @@ from .forms import *
 def home(request):
     print("This is working")
 
+    # get the events assigned to specific user
     # get current events
     current_events = Event.objects.filter(closed=False).order_by('-created_on')
 
@@ -17,16 +18,6 @@ def home(request):
     return render(request, 'main/index.html', context)
 
 
-def task_inidiv(event, slug, id):
-    event = Event.objects.get(slug=slug)
-
-    # get the task
-    tasks = Task.objects.filter(event=event)
-
-    singleTask = tasks.get(id=id)
-    taskComments = TaskComment.objects.filter(task=singleTask)
- 
-    return taskComments
 # get the details for the events
 def details(request, slug, task_id=None):
     
@@ -132,23 +123,20 @@ def add_task(request, slug):
         event = Event.objects.get(slug=slug)
 
         if request.method == 'POST':
-            form = AddTaskForm(request.POST or None)
+            task_title = request.POST.get("task")
 
-            if form.is_valid():
-                data = form.save(commit=False)
-                data.event = event
-                data.created_by = request.user
-                data.save()
-                return redirect("main:details", slug=event.slug)
-        else:
-            form = AddTaskForm()
+            Task(event=event, title=task_title, created_by=request.user).save()
+
+            return redirect("main:details", slug=slug)
+
         return render(request, 'main/add-task.html', {"form": form})
 
 
 # close the task
 
 def close_task(request, id, slug=None):
-    if request.user.is_authenticated and request.user.is_superuser:
+    event = Event.objects.get(slug=slug)
+    if request.user.is_authenticated and (request.user.is_superuser or request.user in event.volunteers.all()):
         # get task
         task = Task.objects.get(id=id)
 

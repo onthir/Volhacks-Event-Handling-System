@@ -64,8 +64,27 @@
 
                         {% if request.user.is_superuser %}
 
-                            <a href="{% url 'main:add_task' event.slug %}" class="btn btn-danger">Add a new Task</a>
-                        {% endif %}
+                            <a href="{% url 'main:add_task' event.slug %}" data-toggle="modal" data-target=".bd-example-modal-sm"  class="btn btn-danger">Add a new Task</a>
+                        
+                            <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-sm">
+                                      <div class="modal-content">
+                                          <div class="container">
+                                              <h4 class="text-center">Add New Task</h4>
+                                              <form action="{% url 'main:add_task' event.slug%}" method="post">
+                                                  {% csrf_token %}
+                                                  <label for="">Enter Task Name</label>
+                                                  <input type="text" class="form-control" style="background:#c4f2ee;" autofocus name="task">
+                                                  <br>
+                                                  <input type="submit" value="Submit" class="btn btn-danger">
+                                              </form>
+                                          </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                
+                                <!-- end of test her -->
+                            {% endif %}
 
                     {% if not tasks %}
                         <h5 class="text-center"><i>No Tasks assigned yet.</i></h5>
@@ -80,7 +99,7 @@
                             {{ task.title }}
                           </button>
 
-                          {% if request.user.is_superuser %}
+                          {% if request.user.is_superuser or request.user in event.volunteers.all %}
                                 {% if not task.completed %}
                                 <a href="{% url 'main:close_task' task.id event.slug %}" class="btn btn-danger">Close Task</a>
                           
@@ -95,7 +114,7 @@
                         <div class="card-body">
                                 {% for taskComment in taskcomments %}
                                     {% if taskComment.task.id == task.id %}
-                                        <div class="box">
+                                        <div class="speech-bubble">
                                         <a href="#">{{ taskComment.posted_by }}</a>
                                         <i>{{ taskComment.posted_on }}</i>
                                         <p>{{ taskComment.description }}</p>

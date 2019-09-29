@@ -161,3 +161,36 @@ input[type=email]:focus {
     border: 3px solid steelblue;
     padding: 7px;
 }
+
+.myBox{
+    background: white;
+    padding: 7px;
+}
+
+.speech-bubble {
+    background: #efefef;
+    -webkit-border-radius: 4px;
+            border-radius: 4px;
+    font-size: 1.2rem;
+    line-height: 1.3;
+    margin: 0 auto 40px;
+    max-width: 400px;
+    padding: 15px;
+    position: relative;
+}
+
+.speech-bubble p {
+    margin: 0 0 10px;
+}
+.speech-bubble p:last-of-type {
+    margin-bottom: 0;
+}
+
+.speech-bubble::after {
+    border-left: 20px solid transparent;
+    border-top: 20px solid #efefef;
+    bottom: -20px;
+    content: "";
+    position: absolute;
+    right: 20px;
+}

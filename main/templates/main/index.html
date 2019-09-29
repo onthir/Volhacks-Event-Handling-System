@@ -15,8 +15,12 @@
                     <th scope="col">EventID</th>
                     <th scope="col">Event Name</th>
                     <th scope="col">Last Activity</th>
-                    <th scope="col">Progress</th>
+                    {% if request.user.is_superuser %}
                     <th scope="col">Action</th>
+                    {% else %}
+                    <th>Assigned To</th>
+
+                    {% endif %}
                   </tr>
                 </thead>
                 <tbody>
@@ -24,25 +28,34 @@
                   <tr>
                     <th scope="row">{{ event.id }}</th>
                     <td><a href="{% url 'main:details' event.slug %}">{{ event.event_name }}</a> </td>
-                    <td>{{ event.created_on }}</td>
-                    <td>{{ event.closed }}</td>
+                    <td>{{ event.created_on | timesince }}</td>
+
+                    {% if request.user.is_superuser %}
                     <td><a href="{% url 'main:edit_event' event.slug %}"><i class="far fa-edit" style="color: orange;" data-toggle="tooltip" data-placement="top" title="Edit this event"></i></a>   /   / <a href="{% url 'main:close_event' event.slug %}">Close Event</a></td>
+                    
+                    {% else %}
+                    <td>{% for volunteer in event.volunteers.all %}[{{ volunteer.username }}] {% endfor %}</td>
+                    {% endif %}
                   </tr>
                   {% endfor %}
 
                 </tbody>
               </table>
               <div class="text-right">
-              <a href="{% url 'main:add_event' %}" data-toggle="modal" data-target=".bd-example-modal-sm"><i class="far fa-plus-square" style="font-size: 30px; color:maroon;" data-toggle="tooltip" data-placement="top" title="Create a new Event"></i></button></a>
+              
+              {% if request.user.is_superuser %}
+                <a href="{% url 'main:add_event' %}" data-toggle="modal" data-target=".bd-example-modal-sm"><i class="far fa-plus-square" style="font-size: 30px; color:maroon;" data-toggle="tooltip" data-placement="top" title="Create a new Event"></i></button></a>
+              
+              {% endif %}
                 <!-- this is a test -->
                 <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-sm">
                       <div class="modal-content">
                           <div class="container">
-                              <h4 class="text-center">Add New Task</h4>
+                              <h4 class="text-center">Add New Event</h4>
                               <form action="{% url 'main:add_event' %}" method="post">
                                   {% csrf_token %}
-                                  <label for="">Enter Task Name</label>
+                                  <label for="">Enter Event Name</label>
                                   <input type="text" class="form-control" style="background:#c4f2ee;" autofocus name="event">
                                   <br>
                                   <input type="submit" value="Submit" class="btn btn-danger">
